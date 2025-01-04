@@ -1,0 +1,13 @@
+name = "FHT"
+uuid = "e0605d58-1a4b-427b-8ab9-d16fed775e83"
+authors = ["Kazunori Akiyama"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1.10"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

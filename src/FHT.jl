@@ -5,12 +5,12 @@ import AbstractFHTs: FHTPlan,
     fht, fht!, ifht, ifht!,
     *, inv, \,
     eltype, size, length, ndims, 
-    fftdims, fftfreqs
+    fftdims, fftfreq
 export plan_fht, plan_fht!, plan_ifht, plan_ifht!,
     fht, fht!, ifht, ifht!,
     *, inv, \,
     eltype, size, length, ndims, 
-    fftdims, fftfreqs
+    fftdims, fftfreq
 
 function plan_fht(A, dims; flags=FFTW.ESTIMATE, timelimit=Inf)
     bfftplan = FFTW.plan_bfft(A, dims; flags=flags, timelimit=timelimit)

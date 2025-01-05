@@ -6,7 +6,7 @@ using Test
     rng = StableRNG(0)
     x1d = rand(rng, Float64, 128)
     x2d = rand(rng, Float64, 128, 128)
-
+    x3d = rand(rng, Float64, 16, 16, 16)
     for x in (x1d, x2d)
         # make FHT plans
         p1 = plan_fht(x)
@@ -21,16 +21,29 @@ using Test
         # check if the forward FPT plans are consistent
         y1 = p1 * x
         y2 = p2 * deepcopy(x)
+        y3 = fht(x)
+        y4 = fht!(deepcopy(x))
         @test y1 == y2
+        @test y1 == y3
+        @test y1 == y4
 
         # check inverse of inverse is the same
         x1 = ip1 * y1
         x2 = ip2 * deepcopy(y1)
         x3 = ip3 * y1 
         x4 = ip4 * deepcopy(y1)
+        x5 = ifht(y1) 
+        x6 = ifht!(deepcopy(y1))
         @test x ≈ x1
         @test x ≈ x2
         @test x ≈ x3
         @test x ≈ x4
+        @test x ≈ x5
+        @test x ≈ x6
+        @test x1 == x2
+        @test x1 == x3
+        @test x1 == x4
+        @test x1 == x5
+        @test x1 == x6
     end
 end

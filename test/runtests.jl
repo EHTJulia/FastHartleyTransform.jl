@@ -7,7 +7,7 @@ using Test
     x1d = rand(rng, Float64, 128)
     x2d = rand(rng, Float64, 128, 128)
     x3d = rand(rng, Float64, 16, 16, 16)
-    for x in (x1d, x2d)
+    for x in (x1d, x2d, x3d)
         # make FHT plans
         p1 = plan_fht(x)
         p2 = plan_fht!(x)
@@ -34,17 +34,23 @@ using Test
         x4 = ip4 * deepcopy(y1)
         x5 = ifht(y1) 
         x6 = ifht!(deepcopy(y1))
+        x7 = p1 \ y1
+        x8 = p2 \ deepcopy(y1)
         @test x ≈ x1
         @test x ≈ x2
         @test x ≈ x3
         @test x ≈ x4
         @test x ≈ x5
         @test x ≈ x6
+        @test x ≈ x7
+        @test x ≈ x8
         @test x1 == x2
         @test x1 == x3
         @test x1 == x4
         @test x1 == x5
         @test x1 == x6
+        @test x1 == x7
+        @test x1 == x8
 
         # check methods
         for p in (p1, p2)

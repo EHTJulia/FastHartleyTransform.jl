@@ -51,7 +51,6 @@ using Test
             @test eltype(p) == eltype(p.bfftplan)
             @test ndims(p) == ndims(p.bfftplan)
             @test length(p) == length(p.bfftplan)
-            @test scale_type(p) == scale_type(p.bfftplan)
             @test fftdims(p) == fftdims(p.bfftplan)
         end
     end

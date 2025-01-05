@@ -8,27 +8,29 @@ using Test
     x2d = rand(rng, Float64, 128, 128)
 
     for x in (x1d, x2d)
-        # make FHT plan
+        # make FHT plans
         p1 = plan_fht(x)
         p2 = plan_fht!(x)
 
-        # check if the output is the same
-        y = p1 * x
-        @test y == p2 * deepcopy(x)
-
-        # make inverse FHT plan
+        # make inverse FHT plans
         ip1 = plan_ifht(x)
         ip2 = plan_ifht!(x)
         ip3 = inv(p1)
         ip4 = inv(p2)
 
-        # make inverse FHT plan inplace
-        x2 = ip1 * y
+        # check if the forward FPT plans are consistent
+        y1 = p1 * x
+        y2 = p2 * deepcopy(x)
+        @test y1 = y2
+
+        # check inverse of inverse is the same
+        x1 = ip1 * y1
+        x2 = ip2 * deepcopy(y1)
+        x3 = ip3 * y1 
+        x4 = ip4 * deepcopy(y1)
+        @test x == x1
         @test x == x2
-        
-        # check if the plans are the same
-        @test x == ip3 * y 
-        @test x == ip2 * deepcopy(y)
-        @test x == ip4 * deepcopy(y)
+        @test x == x3
+        @test x == x4
     end
 end

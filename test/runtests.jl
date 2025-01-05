@@ -21,7 +21,7 @@ using Test
         # check if the forward FPT plans are consistent
         y1 = p1 * x
         y2 = p2 * deepcopy(x)
-        @test y1 = y2
+        @test y1 == y2
 
         # check inverse of inverse is the same
         x1 = ip1 * y1

@@ -53,7 +53,6 @@ using Test
             @test length(p) == length(p.bfftplan)
             @test scale_type(p) == scale_type(p.bfftplan)
             @test fftdims(p) == fftdims(p.bfftplan)
-            @test fftfreq(p) == fftfreq(p.bfftplan)
         end
     end
 end

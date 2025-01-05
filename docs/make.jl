@@ -1,7 +1,9 @@
 using FastHartleyTransform
 using Documenter
 
-DocMeta.setdocmeta!(FastHartleyTransform, :DocTestSetup, :(using FastHartleyTransform); recursive=true)
+DocMeta.setdocmeta!(
+    FastHartleyTransform, :DocTestSetup, :(using FastHartleyTransform); recursive=true
+)
 
 makedocs(;
     modules=[FastHartleyTransform],
@@ -12,12 +14,7 @@ makedocs(;
         edit_link="main",
         assets=String[],
     ),
-    pages=[
-        "Home" => "index.md",
-    ],
+    pages=["Home" => "index.md"],
 )
 
-deploydocs(;
-    repo="github.com/EHTJulia/FastHartleyTransform.jl",
-    devbranch="main",
-)
+deploydocs(; repo="github.com/EHTJulia/FastHartleyTransform.jl", devbranch="main")

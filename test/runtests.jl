@@ -47,11 +47,18 @@ using Test
         @test x1 == x6
 
         # check methods
-        for p in (p1, p2, ip1, ip2, ip3, ip4)
+        for p in (p1, p2)
             @test eltype(p) == eltype(p.bfftplan)
             @test ndims(p) == ndims(p.bfftplan)
             @test length(p) == length(p.bfftplan)
             @test fftdims(p) == fftdims(p.bfftplan)
+        end
+
+        for p in (ip1,ip2,ip3,ip4)
+            @test eltype(p) == eltype(p1)
+            @test ndims(p) == ndims(p1)
+            @test length(p) == length(p1)
+            @test fftdims(p) == fftdims(p1)
         end
     end
 end

@@ -1,3 +1,4 @@
 [deps]
+AbstractFastHartleyTransforms = "19a999c2-4b91-4a95-a5ef-9640c9e909f0"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
-FHT = "e0605d58-1a4b-427b-8ab9-d16fed775e83"
+FastHartleyTransform = "e0605d58-1a4b-427b-8ab9-d16fed775e83"

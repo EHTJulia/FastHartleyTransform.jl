@@ -2,7 +2,7 @@
 
 julia_version = "1.10.7"
 manifest_format = "2.0"
-project_hash = "06c24312727b349efc386755827bc437c182e2a2"
+project_hash = "cf54fa8af0a05eb586e5acb8d77e43f8eb4c6672"
 
 [[deps.AbstractFFTs]]
 deps = ["LinearAlgebra"]
@@ -18,11 +18,13 @@ version = "1.5.0"
     ChainRulesCore = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
     Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
-[[deps.AbstractFHTs]]
+[[deps.AbstractFastHartleyTransforms]]
 deps = ["AbstractFFTs", "LinearAlgebra"]
-path = "/Users/kazu/.julia/dev/AbstractFHTs"
+git-tree-sha1 = "301e93e35a8b8481b28c8505fb34c1cec56e79a1"
+repo-rev = "main"
+repo-url = "https://github.com/EHTJulia/AbstractFastHartleyTransforms.jl"
 uuid = "19a999c2-4b91-4a95-a5ef-9640c9e909f0"
-version = "0.0.0-DEV"
+version = "0.1.0"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"

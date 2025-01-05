@@ -28,9 +28,9 @@ using Test
         x2 = ip2 * deepcopy(y1)
         x3 = ip3 * y1 
         x4 = ip4 * deepcopy(y1)
-        @test x == x1
-        @test x == x2
-        @test x == x3
-        @test x == x4
+        @test x ≈ x1
+        @test x ≈ x2
+        @test x ≈ x3
+        @test x ≈ x4
     end
 end

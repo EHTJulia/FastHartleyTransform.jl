@@ -45,5 +45,15 @@ using Test
         @test x1 == x4
         @test x1 == x5
         @test x1 == x6
+
+        # check methods
+        for p in (p1, p2, ip1, ip2, ip3, ip4)
+            @test eltype(p) == eltype(p.bfftplan)
+            @test ndims(p) == ndims(p.bfftplan)
+            @test length(p) == length(p.bfftplan)
+            @test scale_type(p) == scale_type(p.bfftplan)
+            @test fftdims(p) == fftdims(p.bfftplan)
+            @test fftfreq(p) == fftfreq(p.bfftplan)
+        end
     end
 end

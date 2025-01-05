@@ -1,14 +1,14 @@
 ```@meta
-CurrentModule = FHT
+CurrentModule = FastHartleyTransform
 ```
 
-# FHT
+# FastHartleyTransform
 
-Documentation for [FHT](https://github.com/EHTJulia/FHT.jl).
+Documentation for [FastHartleyTransform](https://github.com/EHTJulia/FastHartleyTransform.jl).
 
 ```@index
 ```
 
 ```@autodocs
-Modules = [FHT]
+Modules = [FastHartleyTransform]
 ```

@@ -1,6 +1,6 @@
-module FHT
+module FastHartleyTransform
 import FFTW
-import AbstractFHTs: FHTPlan, FHTPlanInplace,
+import AbstractFastHartleyTransforms: FHTPlan, FHTPlanInplace,
     plan_fht, plan_fht!, plan_ifht, plan_ifht!,
     fht, fht!, ifht, ifht!,
     *, inv, \,

@@ -1,18 +1,18 @@
-using FHT
+using FastHartleyTransform
 using StableRNGs
 using Test
 
-@testset "FHT.jl" begin
+@testset "FastHartleyTransform.jl" begin
     rng = StableRNG(0)
     x1d = rand(rng, Float64, 128)
     x2d = rand(rng, Float64, 128, 128)
     x3d = rand(rng, Float64, 16, 16, 16)
     for x in (x1d, x2d, x3d)
-        # make FHT plans
+        # make FastHartleyTransform plans
         p1 = plan_fht(x)
         p2 = plan_fht!(x)
 
-        # make inverse FHT plans
+        # make inverse FastHartleyTransform plans
         ip1 = plan_ifht(x)
         ip2 = plan_ifht!(x)
         ip3 = inv(p1)

@@ -1,6 +1,6 @@
 module FHT
 import FFTW
-import AbstractFHTs: FHTPlan, 
+import AbstractFHTs: FHTPlan, FHTPlanInplace,
     plan_fht, plan_fht!, plan_ifht, plan_ifht!,
     fht, fht!, ifht, ifht!,
     *, inv, \,

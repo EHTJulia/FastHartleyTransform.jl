@@ -20,9 +20,9 @@ version = "1.5.0"
 
 [[deps.AbstractFastHartleyTransforms]]
 deps = ["AbstractFFTs", "LinearAlgebra"]
-git-tree-sha1 = "aa2d5f6d93b99f911d572621fa018ec4a305312f"
+git-tree-sha1 = "7af33a98a0496c7da0e439fca4934416614b9b34"
 uuid = "19a999c2-4b91-4a95-a5ef-9640c9e909f0"
-version = "0.1.0"
+version = "0.1.1"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"

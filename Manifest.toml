@@ -20,9 +20,7 @@ version = "1.5.0"
 
 [[deps.AbstractFastHartleyTransforms]]
 deps = ["AbstractFFTs", "LinearAlgebra"]
-git-tree-sha1 = "1b08ccc888244d6cfbd594f29669e801ef80e4d8"
-repo-rev = "main"
-repo-url = "https://github.com/EHTJulia/AbstractFastHartleyTransforms.jl"
+git-tree-sha1 = "aa2d5f6d93b99f911d572621fa018ec4a305312f"
 uuid = "19a999c2-4b91-4a95-a5ef-9640c9e909f0"
 version = "0.1.0"
 

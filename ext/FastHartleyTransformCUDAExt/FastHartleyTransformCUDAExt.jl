@@ -1,4 +1,4 @@
-module CUDAExt
+module FastHartleyTransformCUDAExt
 import AbstractFastHartleyTransforms:
     BFFTPlan,
     BFFTPlanInplace,

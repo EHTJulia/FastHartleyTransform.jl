@@ -1,5 +1,7 @@
 module FastHartleyTransform
+using PrecompileTools: @setup_workload, @compile_workload
 using FFTW: ESTIMATE, plan_r2r, plan_r2r!, plan_bfft, DHT
+
 import AbstractFastHartleyTransforms:
     BFFTPlan,
     BFFTPlanInplace,
@@ -21,6 +23,7 @@ import AbstractFastHartleyTransforms:
     length,
     ndims,
     fftdims
+
 export plan_fht,
     plan_fht!,
     plan_ifht,
@@ -73,6 +76,19 @@ function plan_fht!(
     else
         bfftplan = plan_bfft(A, dims; flags=flags, timelimit=timelimit)
         return BFFTPlanInplace(bfftplan)
+    end
+end
+
+@setup_workload begin
+    # Putting some things in `@setup_workload` instead of `@compile_workload` can reduce the size of the
+    # precompile file and potentially make loading faster.
+    x_list = (rand(Float64, 128), rand(Float64, 128, 128))
+    @compile_workload begin
+        for x in x_list
+            ifht(fht(x))
+            fht!(x)
+            ifht!(x)
+        end
     end
 end
 

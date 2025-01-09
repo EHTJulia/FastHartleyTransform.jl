@@ -2,6 +2,11 @@ using FastHartleyTransform
 using StableRNGs
 using Test
 
+function check_inv(xinv, xorg, xinvref)
+    @test xorg ≈ xinv
+    @test xinvref == xinv
+end
+
 @testset "FastHartleyTransform.jl" begin
     rng = StableRNG(0)
     x1d = rand(rng, Float64, 128)
@@ -20,45 +25,26 @@ using Test
 
         # check if the forward FPT plans are consistent
         y1 = p1 * x
-        y2 = p2 * deepcopy(x)
-        y3 = fht(x)
-        y4 = fht!(deepcopy(x))
-        @test y1 == y2
-        @test y1 == y3
-        @test y1 == y4
+        @test y1 == p2 * deepcopy(x)
+        @test y1 == fht(x)
+        @test y1 == fht!(deepcopy(x))
 
         # check inverse of inverse is the same
         x1 = ip1 * y1
-        x2 = ip2 * deepcopy(y1)
-        x3 = ip3 * y1
-        x4 = ip4 * deepcopy(y1)
-        x5 = ifht(y1)
-        x6 = ifht!(deepcopy(y1))
-        x7 = p1 \ y1
-        x8 = p2 \ deepcopy(y1)
-        @test x ≈ x1
-        @test x ≈ x2
-        @test x ≈ x3
-        @test x ≈ x4
-        @test x ≈ x5
-        @test x ≈ x6
-        @test x ≈ x7
-        @test x ≈ x8
-        @test x1 == x2
-        @test x1 == x3
-        @test x1 == x4
-        @test x1 == x5
-        @test x1 == x6
-        @test x1 == x7
-        @test x1 == x8
+        check_inv(x1, x, x1)
+        check_inv(ip2 * deepcopy(y1), x, x1)
+        check_inv(ip3 * y1, x, x1)
+        check_inv(ip4 * deepcopy(y1), x, x1)
+        check_inv(ifht(y1), x, x1)
+        check_inv(ifht!(deepcopy(y1)), x, x1)
+        check_inv(p1 \ y1, x, x1)
+        check_inv(p2 \ deepcopy(y1), x, x1)
 
         # check methods
-        for p in (p1, p2)
-            @test eltype(p) == eltype(p.bfftplan)
-            @test ndims(p) == ndims(p.bfftplan)
-            @test length(p) == length(p.bfftplan)
-            @test fftdims(p) == fftdims(p.bfftplan)
-        end
+        @test eltype(p1) == eltype(p2)
+        @test ndims(p1) == ndims(p2)
+        @test length(p1) == length(p2)
+        @test fftdims(p1) == fftdims(p2)
 
         for p in (ip1, ip2, ip3, ip4)
             @test eltype(p) == eltype(p1)

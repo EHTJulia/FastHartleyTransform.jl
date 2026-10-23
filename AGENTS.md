@@ -17,8 +17,8 @@ These requirements apply to implementation, tests, examples, benchmarks, and con
 
 ## Formatting
 
-- Use the root `.JuliaFormatter.toml`, with `style = "blue"`, for all Julia files, including tests, documentation examples, extensions, and benchmarks.
-- JuliaFormatter is pinned to exactly 2.1.2 in `tools/Project.toml`; keep the tooling manifest committed. Run `julia --project=tools -e 'using Pkg; Pkg.instantiate()'` before use.
+- Use Runic for all Julia files, including tests, documentation examples, extensions, and benchmarks. Runic has no style configuration file.
+- Runic is pinned to exactly 1.13.0 in `tools/Project.toml`; keep the tooling manifest committed. Run `julia --project=tools -e 'using Pkg; Pkg.instantiate()'` before use.
 - Format with `julia --project=tools tools/format.jl --write` and check with `julia --project=tools tools/format.jl`. A check must not rewrite files and must fail when formatting differs.
 - Run the format check at the end of every implementation stage. Keep broad formatting changes in a separate change unit from functional changes.
 
@@ -26,4 +26,4 @@ These requirements apply to implementation, tests, examples, benchmarks, and con
 
 - Write all line comments, block comments, docstrings, and configuration comments in American English. Review existing text as well as additions; keep language cleanup separate from functional changes.
 - Explain work and progress to the user in Japanese.
-- At the end of every implementation stage, report tests, inference/allocation and performance results, BlueStyle checks, and comment/docstring language review. Explicitly list checks that were not performed, including unavailable backend or differentiation checks.
+- At the end of every implementation stage, report tests, inference/allocation and performance results, Runic checks, and comment/docstring language review. Explicitly list checks that were not performed, including unavailable backend or differentiation checks.

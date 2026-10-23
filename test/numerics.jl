@@ -32,7 +32,7 @@ function check_numerics(T, shape, dims)
     @test ifht(reference, dims) ≈ x
     @test ifht!(copy(reference), dims) ≈ x
     @test fht(x, dims) ≈ reference
-    @test fht!(copy(x), dims) ≈ reference
+    return @test fht!(copy(x), dims) ≈ reference
 end
 
 @testset "Hartley definition, axes, normalization, and adjoints" begin

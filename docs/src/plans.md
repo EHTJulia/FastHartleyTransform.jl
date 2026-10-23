@@ -44,7 +44,7 @@ Use a plan when setting FFTW options; the convenience transform calls do not for
 ```@example planning
 using FastHartleyTransform, FFTW
 x = reshape(sin.(1:64), 8, 8)
-p = plan_fht(copy(x), (1, 2); flags=FFTW.ESTIMATE, use_r2r=false)
+p = plan_fht(copy(x), (1, 2); flags = FFTW.ESTIMATE, use_r2r = false)
 @assert p * x ≈ fht(x)
 nothing # hide
 ```

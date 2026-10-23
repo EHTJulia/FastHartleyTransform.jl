@@ -35,13 +35,13 @@ function check_case(T, shape, threads, samples)
     dims = Tuple(1:ndims(x))
     println("case,type=", T, ",shape=", shape, ",dims=", dims, ",fftw_threads=", threads)
     @timev "first CPU plan (may include compilation)" cpu = plan_fht(
-        x, dims; flags=FFTW.ESTIMATE
+        x, dims; flags = FFTW.ESTIMATE
     )
     @timev "first GPU plan (may include compilation)" gpu = CUDA.@sync plan_fht(gx, dims)
     @timev "first CPU execution (may include compilation)" expected = execute(cpu, x)
     @timev "first GPU execution (may include compilation)" actual = execute_cuda(gpu, gx)
     @test isapprox(
-        Array(actual), expected; rtol=200eps(T), atol=200eps(T)*maximum(abs, expected)
+        Array(actual), expected; rtol = 200eps(T), atol = 200eps(T) * maximum(abs, expected)
     )
     @test (@inferred execute(cpu, x)) isa typeof(x)
     @test (@inferred execute(gpu, gx)) isa typeof(gx)
@@ -51,24 +51,24 @@ function check_case(T, shape, threads, samples)
     transfer_transform(gpu, x)
     report(
         "cpu_plan",
-        @benchmark plan_fht($x, $dims; flags=FFTW.ESTIMATE) evals=1 samples=samples seconds=1
+        @benchmark plan_fht($x, $dims; flags = FFTW.ESTIMATE) evals = 1 samples = samples seconds = 1
     )
     report(
         "gpu_plan",
-        @benchmark CUDA.@sync(plan_fht($gx, $dims)) evals=1 samples=samples seconds=1
+        @benchmark CUDA.@sync(plan_fht($gx, $dims)) evals = 1 samples = samples seconds = 1
     )
     c = report(
-        "cpu_transform", @benchmark execute($cpu, $x) evals=1 samples=samples seconds=1
+        "cpu_transform", @benchmark execute($cpu, $x) evals = 1 samples = samples seconds = 1
     )
     g = report(
         "gpu_transform",
-        @benchmark execute_cuda($gpu, $gx) evals=1 samples=samples seconds=1
+        @benchmark execute_cuda($gpu, $gx) evals = 1 samples = samples seconds = 1
     )
     t = report(
         "gpu_with_transfers",
-        @benchmark transfer_transform($gpu, $x) evals=1 samples=samples seconds=1
+        @benchmark transfer_transform($gpu, $x) evals = 1 samples = samples seconds = 1
     )
-    println("speedup,resident=", c/g, ",including_transfers=", c/t)
+    println("speedup,resident=", c / g, ",including_transfers=", c / t)
     # CUDA reports device allocations separately from Julia host allocations.
     CUDA.@time execute_cuda(gpu, gx)
     return nothing
@@ -96,18 +96,18 @@ function main()
     samples = parse(Int, get(ENV, "FHT_BENCHMARK_SAMPLES", "100"))
     @assert samples > 0
     for threads in unique((1, Threads.nthreads())),
-        T in (Float32, Float64),
-        shape in (
-            (128,),
-            (4096,),
-            (262144,),
-            (32, 32),
-            (256, 256),
-            (1024, 1024),
-            (16, 16, 16),
-            (64, 64, 64),
-            (128, 128, 128),
-        )
+            T in (Float32, Float64),
+            shape in (
+                (128,),
+                (4096,),
+                (262144,),
+                (32, 32),
+                (256, 256),
+                (1024, 1024),
+                (16, 16, 16),
+                (64, 64, 64),
+                (128, 128, 128),
+            )
 
         check_case(T, shape, threads, samples)
     end

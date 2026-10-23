@@ -3,3 +3,9 @@
 *.jl.mem
 /docs/Manifest.toml
 /docs/build/
+/benchmark/Manifest.toml
+/test/reactant/Manifest.toml
+/.ci/
+
+/Manifest.toml
+/test/gpu/Manifest.toml

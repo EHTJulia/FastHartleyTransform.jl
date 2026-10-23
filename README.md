@@ -10,3 +10,5 @@ This package provides a Julia implementation of the Fast Hartley Transform (FHT)
 
 
 The implementation is built up on [`AbstractFastHartleyTransforms.jl`](https://github.com/EHTJulia/AbstractFastHartleyTransforms.jl), providing generic interfaces including `fht(x)`, `fht!(x)`, `ifht(x)`, `ifht!(x)`, `plan_fht(x)`, and `plan_ifht(x)`.
+
+Enzyme differentiation and Reactant compilation are optional. See the [documentation](https://EHTJulia.github.io/FastHartleyTransform.jl/dev/) for usage, supported backends, and performance measurements.

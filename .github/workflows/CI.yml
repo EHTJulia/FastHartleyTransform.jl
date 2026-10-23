@@ -100,3 +100,22 @@ jobs:
           using FastHartleyTransform
           DocMeta.setdocmeta!(FastHartleyTransform, :DocTestSetup, :(using FastHartleyTransform); recursive=true)
           doctest(FastHartleyTransform)
+  reactant:
+    name: Reactant CPU
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6
+        with:
+          repository: EHTJulia/AbstractFastHartleyTransforms.jl
+          ref: bd08b5244d829d5d2dac2acaf9e260f5ff0da7e6
+          path: .ci/AbstractFastHartleyTransforms
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.10.12'
+      - uses: julia-actions/cache@v2
+      - name: Install Reactant test dependencies
+        run: julia --project=test/reactant -e 'using Pkg; Pkg.develop([PackageSpec(path=pwd()), PackageSpec(path=".ci/AbstractFastHartleyTransforms")]); Pkg.instantiate()'
+      - name: Test compiled transforms and differentiation
+        run: julia --project=test/reactant test/reactant/runtests.jl

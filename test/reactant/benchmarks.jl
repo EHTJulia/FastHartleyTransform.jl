@@ -34,7 +34,7 @@ function measure(label, f, args...)
     middle = if isodd(samples)
         times[(samples + 1) ÷ 2]
     else
-        (times[samples ÷ 2]+times[samples ÷ 2 + 1])/2
+        (times[samples ÷ 2] + times[samples ÷ 2 + 1]) / 2
     end
     println(
         label,
@@ -72,14 +72,14 @@ function check_case(T, shape)
     actual = synchronized_call(transform, rx)
     tolerance = 500eps(T)
     @test isapprox(
-        Array(actual), expected; rtol=tolerance, atol=tolerance*maximum(abs, expected)
+        Array(actual), expected; rtol = tolerance, atol = tolerance * maximum(abs, expected)
     )
     dx, dt = synchronized_call(gradient, rx, rt)
     @test isapprox(
-        Array(dx), expected_dx; rtol=tolerance, atol=tolerance*maximum(abs, expected_dx)
+        Array(dx), expected_dx; rtol = tolerance, atol = tolerance * maximum(abs, expected_dx)
     )
     @test isapprox(
-        Array(dt), expected_dt; rtol=tolerance, atol=tolerance*maximum(abs, expected_dt)
+        Array(dt), expected_dt; rtol = tolerance, atol = tolerance * maximum(abs, expected_dt)
     )
     measure("reactant_transform", transform, rx)
     measure("reactant_gradient", gradient, rx, rt)

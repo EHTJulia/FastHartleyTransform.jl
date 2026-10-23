@@ -11,4 +11,6 @@ julia --project=tools tools/format.jl --write
 julia --project=tools tools/format.jl
 ```
 
+Runic 1.13.0 is pinned in the tooling environment. The format check covers Julia files and documentation examples without rewriting them.
+
 The `test/reactant` and `test/gpu` environments provide optional backend tests and benchmarks. For a local documentation build, configure the `docs` environment with both packages and run `DOCS_LOCAL=true julia --project=docs docs/make.jl`.

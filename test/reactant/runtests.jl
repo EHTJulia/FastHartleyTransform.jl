@@ -77,7 +77,7 @@ function check_transform(T, shape, dims)
         executable = Reactant.@compile transform(rx, dims)
         result = Array(executable(rx, dims))
         scale = transform in (ifht, ifht!) ? inv(T(m)) : one(T)
-        @test isapprox(result, scale .* reference; rtol=40eps(T), atol=40eps(T))
+        @test isapprox(result, scale .* reference; rtol = 40eps(T), atol = 40eps(T))
         @test Array(rx) ≈ (transform in (fht!, ifht!) ? result : x)
     end
     for planner in (plan_fht, plan_fht!, plan_ifht, plan_ifht!)
@@ -86,12 +86,13 @@ function check_transform(T, shape, dims)
         executable = Reactant.@compile planned_transform(p, rx)
         result = Array(executable(p, rx))
         scale = planner in (plan_ifht, plan_ifht!) ? inv(T(m)) : one(T)
-        @test isapprox(result, scale .* reference; rtol=40eps(T), atol=40eps(T))
+        @test isapprox(result, scale .* reference; rtol = 40eps(T), atol = 40eps(T))
         rx = Reactant.to_rarray(x)
         executable = Reactant.@compile buffered_transform(p, rx)
         @test Array(executable(p, rx)) ≈ scale .* reference
         @test Array(rx) ≈ x
     end
+    return
 end
 
 function check_gradient(T, shape, dims)
@@ -105,15 +106,15 @@ function check_gradient(T, shape, dims)
         rx, rt = Reactant.to_rarray.((x, target))
         gradient = Reactant.@compile residual_gradient(rx, rt, dims, inplace)
         dx, dt = gradient(rx, rt, dims, inplace)
-        @test isapprox(Array(dx), expected_x; rtol=100eps(T), atol=100eps(T))
-        @test isapprox(Array(dt), expected_target; rtol=100eps(T), atol=100eps(T))
+        @test isapprox(Array(dx), expected_x; rtol = 100eps(T), atol = 100eps(T))
+        @test isapprox(Array(dt), expected_target; rtol = 100eps(T), atol = 100eps(T))
         @test Array(rx) ≈ x
         @test Array(rt) ≈ target
         rx, rt = Reactant.to_rarray.((x, target))
         direction = Reactant.@compile residual_direction(rx, rt, dims, inplace)
         actual = direction(rx, rt, dims, inplace)
         @test isapprox(
-            T(actual), sum(expected_x)+sum(expected_target); rtol=100eps(T), atol=100eps(T)
+            T(actual), sum(expected_x) + sum(expected_target); rtol = 100eps(T), atol = 100eps(T)
         )
     end
     for planner in (plan_fht, plan_fht!, plan_ifht, plan_ifht!)
@@ -122,17 +123,18 @@ function check_gradient(T, shape, dims)
         p = scale * planner(rx, dims)
         gradient = Reactant.@compile planned_residual_gradient(p, rx, rt)
         dx, dt = gradient(p, rx, rt)
-        @test isapprox(Array(dx), expected_x; rtol=100eps(T), atol=100eps(T))
-        @test isapprox(Array(dt), expected_target; rtol=100eps(T), atol=100eps(T))
+        @test isapprox(Array(dx), expected_x; rtol = 100eps(T), atol = 100eps(T))
+        @test isapprox(Array(dt), expected_target; rtol = 100eps(T), atol = 100eps(T))
         rx, rt = Reactant.to_rarray.((x, target))
         direction = Reactant.@compile planned_residual_direction(p, rx, rt)
         @test isapprox(
             T(direction(p, rx, rt)),
-            sum(expected_x)+sum(expected_target);
-            rtol=100eps(T),
-            atol=100eps(T),
+            sum(expected_x) + sum(expected_target);
+            rtol = 100eps(T),
+            atol = 100eps(T),
         )
     end
+    return
 end
 
 function main()
@@ -147,27 +149,27 @@ function main()
     )
     println("backend=", get(ENV, "FHT_REACTANT_BACKEND", "cpu"))
     println("devices=", string.(Reactant.devices()))
-    @testset "Reactant Hartley transforms and plans" begin
+    return @testset "Reactant Hartley transforms and plans" begin
         for T in (Float32, Float64),
-            (shape, dims) in (
-                ((5,), (1,)),
-                ((3, 4), (1, 2)),
-                ((2, 3, 2), (1, 3)),
-                ((2, 2, 2, 2), (1, 2, 3, 4)),
-            )
+                (shape, dims) in (
+                    ((5,), (1,)),
+                    ((3, 4), (1, 2)),
+                    ((2, 3, 2), (1, 3)),
+                    ((2, 2, 2, 2), (1, 2, 3, 4)),
+                )
 
             check_transform(T, shape, dims)
             check_gradient(T, shape, dims)
         end
         x = reshape(Float32.(sin.(1:12)), 3, 4)
         rx = Reactant.to_rarray(x)
-        p = plan_fht(rx, (1, 2); use_r2r=true)
+        p = plan_fht(rx, (1, 2); use_r2r = true)
         executable = Reactant.@compile planned_transform(p, rx)
         @test Array(executable(p, rx)) ≈ direct_hartley(direct_hartley(x, (1,)), (2,))
         @test_throws ArgumentError p * x
         @test_throws ArgumentError plan_fht(rx, (1, 1))
         @test_throws ArgumentError plan_fht(rx, (0,))
-        @test_throws ArgumentError plan_fht(rx, (1, 2); flags=FFTW.MEASURE)
+        @test_throws ArgumentError plan_fht(rx, (1, 2); flags = FFTW.MEASURE)
     end
 end
 

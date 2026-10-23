@@ -3,12 +3,12 @@ using StableRNGs
 using Test
 
 function check_inference(p, x)
-    @test (@inferred p * copy(x)) isa typeof(x)
+    return @test (@inferred p * copy(x)) isa typeof(x)
 end
 
 function check_inv(xinv, xorg, xinvref)
     @test xorg ≈ xinv
-    @test xinvref == xinv
+    return @test xinvref == xinv
 end
 
 @testset "FastHartleyTransform.jl" begin

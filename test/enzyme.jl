@@ -53,27 +53,27 @@ function check_enzyme_loss(loss, x, expected)
     Enzyme.autodiff(
         Enzyme.set_runtime_activity(Reverse), Const(loss), Active, Duplicated(copy(x), dx)
     )
-    tolerance = eltype(x) == Float32 ? 2.0f-5 : 2e-11
-    @test isapprox(dx, expected; rtol=tolerance, atol=tolerance)
+    tolerance = eltype(x) == Float32 ? 2.0f-5 : 2.0e-11
+    @test isapprox(dx, expected; rtol = tolerance, atol = tolerance)
     directional = Enzyme.autodiff(
         Enzyme.set_runtime_activity(Forward),
         Const(loss),
         Duplicated,
         Duplicated(copy(x), copy(v)),
     )[1]
-    @test isapprox(directional, dot(expected, v); rtol=tolerance, atol=tolerance)
+    @test isapprox(directional, dot(expected, v); rtol = tolerance, atol = tolerance)
     finite = finite_gradient(a -> loss(copy(a)), x)
-    @test isapprox(
+    return @test isapprox(
         dx,
         finite;
-        rtol=eltype(x) == Float32 ? 5.0f-3 : 3e-7,
-        atol=eltype(x) == Float32 ? 5.0f-3 : 3e-7,
+        rtol = eltype(x) == Float32 ? 5.0f-3 : 3.0e-7,
+        atol = eltype(x) == Float32 ? 5.0f-3 : 3.0e-7,
     )
 end
 
 @testset "Enzyme CPU rules" begin
     for T in (Float32, Float64),
-        (shape, dims) in (((5,), (1,)), ((3, 4), (1, 2)), ((2, 3, 2), (1, 3)))
+            (shape, dims) in (((5,), (1,)), ((3, 4), (1, 2)), ((2, 3, 2), (1, 3)))
 
         x = reshape(T.(sin.(1:prod(shape))), shape)
         target = reshape(T.(0.2cos.(1:prod(shape))), shape)
@@ -110,20 +110,20 @@ end
         residual = h(x) ./ sqrt(T(m)) .- target
         expected_x = h(2 .* residual) ./ sqrt(T(m))
         expected_target = -2 .* residual
-        tolerance = T == Float32 ? 2.0f-5 : 2e-11
-        @test isapprox(dx, expected_x; rtol=tolerance, atol=tolerance)
-        @test isapprox(dt, expected_target; rtol=tolerance, atol=tolerance)
+        tolerance = T == Float32 ? 2.0f-5 : 2.0e-11
+        @test isapprox(dx, expected_x; rtol = tolerance, atol = tolerance)
+        @test isapprox(dt, expected_target; rtol = tolerance, atol = tolerance)
         @test isapprox(
             dx,
             finite_gradient(a -> loss(a, target), x);
-            rtol=T == Float32 ? 5.0f-3 : 3e-7,
-            atol=T == Float32 ? 5.0f-3 : 3e-7,
+            rtol = T == Float32 ? 5.0f-3 : 3.0e-7,
+            atol = T == Float32 ? 5.0f-3 : 3.0e-7,
         )
         @test isapprox(
             dt,
             finite_gradient(b -> loss(x, b), target);
-            rtol=T == Float32 ? 5.0f-3 : 3e-7,
-            atol=T == Float32 ? 5.0f-3 : 3e-7,
+            rtol = T == Float32 ? 5.0f-3 : 3.0e-7,
+            atol = T == Float32 ? 5.0f-3 : 3.0e-7,
         )
         directional = Enzyme.autodiff(
             Enzyme.set_runtime_activity(Forward),
@@ -133,7 +133,7 @@ end
             Duplicated(copy(target), one.(target)),
             Const(dims),
         )[1]
-        @test isapprox(directional, sum(dx)+sum(dt); rtol=tolerance, atol=tolerance)
+        @test isapprox(directional, sum(dx) + sum(dt); rtol = tolerance, atol = tolerance)
     end
 end
 

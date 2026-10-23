@@ -15,26 +15,26 @@ import AbstractFastHartleyTransforms:
     fftdims
 import Base: *, size
 
-const ReactantArray{T,N} = Union{AnyTracedRArray{T,N},AnyConcreteRArray{T,N}}
+const ReactantArray{T, N} = Union{AnyTracedRArray{T, N}, AnyConcreteRArray{T, N}}
 
 # Plans contain only static metadata, so no FFTW handle enters a compiled program.
-struct ReactantHartleyPlan{T,N,D,Inplace,Separable} <: DHTPlan{T}
-    shape::NTuple{N,Int}
+struct ReactantHartleyPlan{T, N, D, Inplace, Separable} <: DHTPlan{T}
+    shape::NTuple{N, Int}
     region::D
 end
 size(p::ReactantHartleyPlan) = p.shape
 fftdims(p::ReactantHartleyPlan) = p.region
-is_inplace(::ReactantHartleyPlan{T,N,D,I}) where {T,N,D,I} = I
+is_inplace(::ReactantHartleyPlan{T, N, D, I}) where {T, N, D, I} = I
 
 function make_plan(
-    x::ReactantArray{T,N},
-    dims,
-    inplace;
-    flags=ESTIMATE,
-    timelimit=Inf,
-    use_r2r::Bool=N == 1,
-) where {T,N}
-    T <: Union{Float32,Float64} ||
+        x::ReactantArray{T, N},
+        dims,
+        inplace;
+        flags = ESTIMATE,
+        timelimit = Inf,
+        use_r2r::Bool = N == 1,
+    ) where {T, N}
+    T <: Union{Float32, Float64} ||
         throw(ArgumentError("Reactant FHT requires Float32 or Float64."))
     flags == ESTIMATE || throw(ArgumentError("Reactant plans support only ESTIMATE flags."))
     timelimit == Inf ||
@@ -42,20 +42,20 @@ function make_plan(
     region = dims isa Integer ? (Int(dims),) : Tuple(Int(d) for d in dims)
     all(d -> 1 <= d <= N, region) || throw(ArgumentError("Invalid transform axes."))
     allunique(region) || throw(ArgumentError("Transform axes must be unique."))
-    return ReactantHartleyPlan{T,N,typeof(region),inplace,use_r2r}(size(x), region)
+    return ReactantHartleyPlan{T, N, typeof(region), inplace, use_r2r}(size(x), region)
 end
 
 plan_fht(x::ReactantArray, dims; kwargs...) = make_plan(x, dims, false; kwargs...)
 plan_fht!(x::ReactantArray, dims; kwargs...) = make_plan(x, dims, true; kwargs...)
 
 function plan_inv(p::ReactantHartleyPlan{T}) where {T}
-    m = prod(d -> size(p, d), fftdims(p); init=1)
+    m = prod(d -> size(p, d), fftdims(p); init = 1)
     return ScaledDHTPlan(p, inv(T(m)))
 end
 plan_ifht(x::ReactantArray, dims; kwargs...) = inv(plan_fht(x, dims; kwargs...))
 plan_ifht!(x::ReactantArray, dims; kwargs...) = inv(plan_fht!(x, dims; kwargs...))
 
-function hartley(p::ReactantHartleyPlan{T,N,D,I,S}, x) where {T,N,D,I,S}
+function hartley(p::ReactantHartleyPlan{T, N, D, I, S}, x) where {T, N, D, I, S}
     size(x) == size(p) ||
         throw(DimensionMismatch("Input shape does not match the Hartley plan."))
     isempty(p.region) && return copy(x)
@@ -99,15 +99,15 @@ function LinearAlgebra.mul!(y::ReactantArray, p::ReactantHartleyPlan, x::Reactan
     return y
 end
 
-function *(p::ScaledDHTPlan{T,P}, x::ReactantArray) where {T,P<:ReactantHartleyPlan}
+function *(p::ScaledDHTPlan{T, P}, x::ReactantArray) where {T, P <: ReactantHartleyPlan}
     y = p.p * x
     y .*= p.scale
     return y
 end
 
 function LinearAlgebra.mul!(
-    y::ReactantArray, p::ScaledDHTPlan{T,P}, x::ReactantArray
-) where {T,P<:ReactantHartleyPlan}
+        y::ReactantArray, p::ScaledDHTPlan{T, P}, x::ReactantArray
+    ) where {T, P <: ReactantHartleyPlan}
     y .= p.scale .* hartley(p.p, x)
     return y
 end

@@ -1,4 +1,5 @@
 using Reactant, Enzyme, FFTW, FastHartleyTransform, Test
+using Statistics: std, quantile
 
 function residual_loss(x, target)
     return sum(abs2, fht(x) ./ sqrt(eltype(x)(length(x))) .- target)
@@ -46,6 +47,12 @@ function measure(label, f, args...)
         minimum(bytes),
         ",samples=",
         samples,
+        ",std_s=",
+        std(times),
+        ",p25_s=",
+        quantile(times, 0.25),
+        ",p75_s=",
+        quantile(times, 0.75),
     )
     return nothing
 end

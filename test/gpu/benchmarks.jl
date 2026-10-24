@@ -24,6 +24,8 @@ function report(label, trial)
         estimate.allocs,
         ",samples=",
         length(trial),
+        ",std_ns=",
+        std(trial.times),
     )
     return estimate.time
 end

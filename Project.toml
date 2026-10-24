@@ -1,7 +1,7 @@
 name = "FastHartleyTransform"
 uuid = "e0605d58-1a4b-427b-8ab9-d16fed775e83"
 authors = ["Kazunori Akiyama"]
-version = "0.1.5"
+version = "0.1.6"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"

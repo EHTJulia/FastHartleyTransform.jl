@@ -19,15 +19,17 @@ CPU examples use dense `Float32` or `Float64` arrays. Nonmutating calls preserve
 using FastHartleyTransform
 x = reshape(collect(1.0:12.0), 3, 4)
 original = copy(x)
+# The forward transform is unnormalized and leaves x unchanged.
 y = fht(x)
 @assert x == original
-@assert ifht(y) ≈ x
+@assert ifht(y) ≈ x # The inverse includes the normalization factor.
 size(y)
 ```
 
 A name ending in `!` overwrites its input:
 
 ```@example basics
+# Keep the original data because both calls overwrite their input.
 scratch = copy(x)
 @assert fht!(scratch) === scratch
 @assert scratch ≈ y
@@ -42,8 +44,9 @@ Without `dims`, all axes are transformed. Select only spatial axes when other ax
 
 ```@example axes
 using FastHartleyTransform
+# Layout: two spatial axes, one channel axis, and one batch axis.
 x = reshape(sin.(1:120), 4, 5, 2, 3)
-dims = (1, 2)
+dims = (1, 2) # Transform each spatial slice independently.
 y = fht(x, dims)
 @assert size(y) == (4, 5, 2, 3)
 @assert ifht(y, dims) ≈ x

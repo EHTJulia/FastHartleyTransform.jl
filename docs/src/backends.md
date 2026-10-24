@@ -16,10 +16,11 @@ Install and load CUDA separately to activate the extension. With a working CUDA 
 
 ```julia
 using CUDA, FastHartleyTransform
+# Keep the input and transformed data on the GPU during repeated execution.
 x = CUDA.randn(Float32, 64, 64)
 p = plan_fht(x, (1, 2))
 y = p * x
-restored = inv(p) * y
+restored = inv(p) * y # The inverse plan includes normalization.
 ```
 
 The extension uses cuFFT backward FFT plans. `CuArray` execution is separate from Reactant compilation.

@@ -5,12 +5,14 @@ A plan fixes the input shape, element type, axes, and transform convention. Crea
 ```@example plans
 using FastHartleyTransform, LinearAlgebra
 x = reshape(sin.(1:20), 4, 5)
+# Create the plan once; reuse it for arrays with matching shape and type.
 p = plan_fht(x, (1, 2))
 y = p * x
 @assert inv(p) * y ≈ x
 @assert p \ y ≈ x
 @assert size(p) == size(x)
 @assert Tuple(fftdims(p)) == (1, 2)
+# Reuse a real output buffer instead of allocating a new result each time.
 out = similar(x)
 mul!(out, p, x)
 @assert out ≈ y
@@ -30,6 +32,7 @@ nothing # hide
 For three-argument `mul!`, separate input and output arrays and exact same-buffer use are tested. Partially overlapping views are outside the verified contract. An output buffer avoids allocating a new real result, but FFT workspaces can still allocate. A mutating API does not imply an allocation-free implementation.
 
 ```@example plans
+# A mutating plan overwrites its execution input.
 scratch = copy(x)
 p! = plan_fht!(scratch, (1, 2))
 @assert p! * scratch === scratch
@@ -44,6 +47,7 @@ Use a plan when setting FFTW options; the convenience transform calls do not for
 ```@example planning
 using FastHartleyTransform, FFTW
 x = reshape(sin.(1:64), 8, 8)
+# Use scratch storage for planning and select the default Hartley convention.
 p = plan_fht(copy(x), (1, 2); flags = FFTW.ESTIMATE, use_r2r = false)
 @assert p * x ≈ fht(x)
 nothing # hide

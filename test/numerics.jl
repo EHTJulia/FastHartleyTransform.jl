@@ -8,7 +8,7 @@ function check_numerics(T, shape, dims)
     region = dims isa Integer ? (dims,) : Tuple(dims)
     m = prod(size(x, d) for d in region)
     for planner in (plan_fht, plan_fht!)
-        p = planner(copy(x), dims)
+        p = @inferred planner(copy(x), dims)
         ip = inv(p)
         @test p * copy(x) ≈ reference
         @test ip * copy(reference) ≈ x

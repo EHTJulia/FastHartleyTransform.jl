@@ -52,7 +52,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           repository: EHTJulia/AbstractFastHartleyTransforms.jl
-          ref: bd08b5244d829d5d2dac2acaf9e260f5ff0da7e6
+          ref: 1b951275df6b397f87c3a951f79ed80c89afa9d6
           path: .ci/AbstractFastHartleyTransforms
       - name: Use the companion package checkout
         run: julia --project -e 'using Pkg; Pkg.develop(path=".ci/AbstractFastHartleyTransforms")'
@@ -81,7 +81,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           repository: EHTJulia/AbstractFastHartleyTransforms.jl
-          ref: bd08b5244d829d5d2dac2acaf9e260f5ff0da7e6
+          ref: 1b951275df6b397f87c3a951f79ed80c89afa9d6
           path: .ci/AbstractFastHartleyTransforms
       - name: Use the companion package for documentation
         run: julia --project -e 'using Pkg; Pkg.develop(path=".ci/AbstractFastHartleyTransforms")'
@@ -112,7 +112,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           repository: EHTJulia/AbstractFastHartleyTransforms.jl
-          ref: bd08b5244d829d5d2dac2acaf9e260f5ff0da7e6
+          ref: 1b951275df6b397f87c3a951f79ed80c89afa9d6
           path: .ci/AbstractFastHartleyTransforms
       - uses: julia-actions/setup-julia@v2
         with:

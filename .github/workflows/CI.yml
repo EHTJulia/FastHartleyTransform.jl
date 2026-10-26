@@ -20,7 +20,7 @@ jobs:
       - uses: julia-actions/setup-julia@v2
         with:
           version: '1.10.12'
-      - uses: julia-actions/cache@v2
+      - uses: julia-actions/cache@v3
       - name: Install pinned formatter
         run: julia --project=tools -e 'using Pkg; Pkg.instantiate()'
       - name: Check Julia formatting
@@ -48,7 +48,7 @@ jobs:
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
-      - uses: julia-actions/cache@v2
+      - uses: julia-actions/cache@v3
       - uses: actions/checkout@v6
         with:
           repository: EHTJulia/AbstractFastHartleyTransforms.jl
@@ -77,7 +77,7 @@ jobs:
       - uses: julia-actions/setup-julia@v2
         with:
           version: '1'
-      - uses: julia-actions/cache@v2
+      - uses: julia-actions/cache@v3
       - uses: actions/checkout@v6
         with:
           repository: EHTJulia/AbstractFastHartleyTransforms.jl
@@ -117,7 +117,7 @@ jobs:
       - uses: julia-actions/setup-julia@v2
         with:
           version: '1.10.12'
-      - uses: julia-actions/cache@v2
+      - uses: julia-actions/cache@v3
       - name: Install Reactant test dependencies
         run: julia --project=test/reactant -e 'using Pkg; Pkg.develop([PackageSpec(path=pwd()), PackageSpec(path=".ci/AbstractFastHartleyTransforms")]); Pkg.instantiate()'
       - name: Test compiled transforms and differentiation

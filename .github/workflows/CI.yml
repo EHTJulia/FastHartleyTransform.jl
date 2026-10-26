@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: julia-actions/setup-julia@v2
+      - uses: julia-actions/setup-julia@v3
         with:
           version: '1.10.12'
       - uses: julia-actions/cache@v2
@@ -44,7 +44,7 @@ jobs:
           - x64
     steps:
       - uses: actions/checkout@v6
-      - uses: julia-actions/setup-julia@v2
+      - uses: julia-actions/setup-julia@v3
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
@@ -74,7 +74,7 @@ jobs:
       statuses: write
     steps:
       - uses: actions/checkout@v6
-      - uses: julia-actions/setup-julia@v2
+      - uses: julia-actions/setup-julia@v3
         with:
           version: '1'
       - uses: julia-actions/cache@v2
@@ -114,7 +114,7 @@ jobs:
           repository: EHTJulia/AbstractFastHartleyTransforms.jl
           ref: 1b951275df6b397f87c3a951f79ed80c89afa9d6
           path: .ci/AbstractFastHartleyTransforms
-      - uses: julia-actions/setup-julia@v2
+      - uses: julia-actions/setup-julia@v3
         with:
           version: '1.10.12'
       - uses: julia-actions/cache@v2

@@ -16,7 +16,7 @@ jobs:
     name: Runic
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: julia-actions/setup-julia@v2
         with:
           version: '1.10.12'
@@ -43,13 +43,13 @@ jobs:
         arch:
           - x64
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: julia-actions/setup-julia@v2
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
       - uses: julia-actions/cache@v2
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           repository: EHTJulia/AbstractFastHartleyTransforms.jl
           ref: 1b951275df6b397f87c3a951f79ed80c89afa9d6
@@ -73,12 +73,12 @@ jobs:
       contents: write
       statuses: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: julia-actions/setup-julia@v2
         with:
           version: '1'
       - uses: julia-actions/cache@v2
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           repository: EHTJulia/AbstractFastHartleyTransforms.jl
           ref: 1b951275df6b397f87c3a951f79ed80c89afa9d6
@@ -108,8 +108,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
         with:
           repository: EHTJulia/AbstractFastHartleyTransforms.jl
           ref: 1b951275df6b397f87c3a951f79ed80c89afa9d6
